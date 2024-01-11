@@ -6,11 +6,13 @@ import { useNavigate } from 'react-router-dom';
 const Login = () => {
     const [error, setError] = useState({ name: "", password: "" });
     const [input, setinput] = useState({ name: "", password: "" });
+    const [exist, setExist] = useState(true);
     const navigate = useNavigate();
+    debugger;
     const isExist = (name, password) => {
         fetch(`http://localhost:3000/users?name=${name}&&website=${password}`)
             .then(response => response.json())
-            .then(data => (data != null) ? navigate('/home') : alert("fged"));
+            .then( response =>  (response.length)? navigate('/home'):setExist(false) )
     }
 
     const logIn = (event) => {
@@ -48,6 +50,7 @@ const Login = () => {
     return (
         <>
             <h1>login</h1>
+            {!exist&&<div>Incorrect username or password</div>}
             <form noValidate onSubmit={logIn}>
                 <input type='text' name='name' placeholder='name' onChange={validateInput}></input>
                 {error.name ? <p>{error.name}</p> : <br />}
