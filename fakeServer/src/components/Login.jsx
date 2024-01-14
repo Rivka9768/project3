@@ -6,17 +6,23 @@ import { useNavigate } from 'react-router-dom';
 const Login = () => {
     const [exist, setExist] = useState(true);
     const navigate = useNavigate();
-    debugger;
+    const goToHome = (data) => {
+        localStorage.setItem('currentUser', JSON.stringify(data));
+        navigate(`/home/users/${data.id}`)
+    }
+
     const isExist = (name, password) => {
-        fetch(`http://localhost:3000/users?username=${name}&&website=${password}`)//לא עשינו לןכל סטורג
-            .then(response => response.json())
-            .then(response => (response.length) ? navigate('/home') : setExist(false))
+        fetch(`http://localhost:3000/users?username=${name}&&website=${password}`)
+            .then(async response => {
+                const data = await response.json();
+                (!response.ok) ? setExist(false): goToHome(data[0])
+            })
     }
 
     const logIn = (event) => {
         event.preventDefault();
         const [name, password] = event.target;
-       debugger 
+        debugger
         if (!validateInput(name.value, password.value)) {
             setExist(false);
             return
@@ -26,7 +32,7 @@ const Login = () => {
     }
 
     const validateInput = (name, password) => {
-        if (/^[a-zA-Z ]+$/.test(name) === false)//האם לאפשר שגם מספרים ותווים
+        if (/^[a-zA-Z. ]+$/.test(name) === false)//האם לאפשר שגם מספרים ותווים
             return false;
         if ((/^[a-zA-Z.]+$/.test(password) === false) || password.indexOf('.') === -1)
             return false;
@@ -40,7 +46,7 @@ const Login = () => {
             <h1>login</h1>
             {!exist && <div>Incorrect username or password</div>}
             <form noValidate onSubmit={logIn}>
-                <input type='text' name='name' placeholder='name' ></input>
+                <input type='text' name='name' placeholder='username' ></input>
                 <input type="password" name="password" id="" placeholder='password' />
                 <input type="submit" value="Log In" />
             </form>
