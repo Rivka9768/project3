@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 
+// import { UserContext } from '../App';
 
 
 const Login = () => {
+    // const [currentUser,setCurrentUser] = useContext(UserContext);
     const [exist, setExist] = useState(true);
     const navigate = useNavigate();
     const goToHome = (data) => {
         localStorage.setItem('currentUser', JSON.stringify(data));
+        //    setCurrentUser(data)
         navigate(`/home/users/${data.id}`)
     }
 
@@ -15,7 +18,7 @@ const Login = () => {
         fetch(`http://localhost:3000/users?username=${name}&&website=${password}`)
             .then(async response => {
                 const data = await response.json();
-                (!response.ok) ? setExist(false): goToHome(data[0])
+                (!response.ok) ? setExist(false) : goToHome(data[0])
             })
     }
 
