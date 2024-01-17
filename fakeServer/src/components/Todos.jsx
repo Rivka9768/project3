@@ -10,7 +10,12 @@ const Todos = () => {
   const [todos, setTodos] = useState([]);
   let [allTodos, setAllTodos] = useState([])
   const [searchValues, setSearchValues] = useState([])
-  const show = ["Serial", "Execution", "Alphabetical", "Random"];
+  // const show = ["Serial", "Execution", "Alphabetical", "Random"];
+  const show = [
+    { value: 'Serial', label: 'Serial' },
+    { value: 'Execution', label: 'Execution' },
+    { value: "Alphabetical", label: "Alphabetical" },
+    { value: "Random", label: "Random" },];
   const animatecomponent = makeAnimated();
   const search = [
     { value: 'id', label: 'id' },
@@ -40,11 +45,11 @@ const Todos = () => {
   }
 
   const sortByCategory = (category) => {
-    console.log(category);
+    console.log(category.value);
     let tempTodos = [];
     todos.map(t => tempTodos.push(t));
     debugger;
-    switch (category) {
+    switch (category.value) {
 
       case "Serial":
         tempTodos.sort((a, b) => a.id - b.id);
@@ -63,6 +68,7 @@ const Todos = () => {
     }
     console.log(tempTodos);
     setTodos(tempTodos)
+    setAllTodos(tempTodos)
   }
   const selectOption = (e) => {
 
@@ -91,7 +97,7 @@ const Todos = () => {
     let tempSelectedTodos = [];
     // allTodos.map(t => tempSelectedTodos.push(t));
     console.log(values)
-    allTodos.forEach((todo) => {
+    todos.forEach((todo) => {
       console.log(todo)
       if (((values[0].value != "") ? todo.id === values[0].value : true)
         && ((values[1].value != "") ? todo.title === values[1].value : true)
@@ -108,13 +114,21 @@ const Todos = () => {
 
   return (
     <>
-      <h1>todos</h1>
+      <h2>here is your todos list...</h2>
+      <h3>feel free to veiw, edit and remove:)</h3>
       {!exist ? <AiOutlineLoading3Quarters /> : <div >
-        <select onChange={(e) => sortByCategory(e.target.value)}>
+        {/* <select onChange={(e) => sortByCategory(e.target.value)}>
           {show.map((category, index) => <option key={index} value={category}> {category}</option>)}
-        </select>
+        </select> */}
         <Select
-          placeholder='Search by...'
+          placeholder='Sort todos by...'
+          components={animatecomponent}
+          onChange={(e) => sortByCategory(e)}
+          options={show}
+          getOptionLabel={(show) => show["label"]}
+          getOptionValue={(show) => show["value"]} />
+        <Select
+          placeholder='Search todos by...'
           components={animatecomponent}
           onChange={(e) => selectOption(e)}
           options={search}
@@ -142,10 +156,10 @@ const Todos = () => {
         </table> */}
         {todos.map((todo, index) =>
           <form key={index}>
-            <span >id: {todo.id}</span> <span >title: {todo.title}</span>
-            <label>completed</label>
+            <span >id: {todo.id}</span> <span >title: "{todo.title}"</span>
+            <label>        completed</label>
             <input type="checkbox" disabled={true} checked={todo.completed} />
-            <button onClick={update}>update</button>
+            <button onClick={update}>edit</button>
             <button onClick={()=>remove(todo.id)}>remove</button>
           </form>
         )}</div>
