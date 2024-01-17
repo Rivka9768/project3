@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Select from "react-select";
 import makeAnimated from 'react-select/animated'
+import { MdDelete ,MdModeEdit} from "react-icons/md";
 
 
 const Todos = () => {
@@ -159,8 +160,8 @@ const Todos = () => {
             <span >id: {todo.id}</span> <span >title: "{todo.title}"</span>
             <label>        completed</label>
             <input type="checkbox" disabled={true} checked={todo.completed} />
-            <button onClick={update}>edit</button>
-            <button onClick={()=>remove(todo.id)}>remove</button>
+            <button onClick={update}><MdModeEdit /></button>
+            <button onClick={()=>remove(todo.id)}><MdDelete /></button>
           </form>
         )}</div>
       }
