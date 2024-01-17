@@ -9,6 +9,8 @@ import Posts from './components/posts/Posts';
 import Todos from './components/Todos';
 import Albums from './components/Albums';
 import Logout from "./components/Logout"
+import Comments from './components/posts/comments/Comments';
+import PostsLayout from './components/PostsLayout';
 
 
 
@@ -33,7 +35,10 @@ function App() {
           <Route path='/home/users/:id' element={<Home />}>
             <Route path='logout' element={<Logout />} />
             <Route path='albums' element={<Albums />} />
-            <Route path='posts' element={<Posts />} />
+            <Route path="posts" element={<PostsLayout />} >
+              <Route index element={<Posts />} />
+              <Route path=":id/comments" element={<Comments />} />
+            </Route>
             <Route path='todos' element={<Todos />} />
             <Route path='info' element={<UserInfo />} />
           </Route>
@@ -47,3 +52,4 @@ function App() {
 }
 
 export default App
+
