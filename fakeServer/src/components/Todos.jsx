@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Select from "react-select";
 import makeAnimated from 'react-select/animated'
-import { MdDelete ,MdModeEdit} from "react-icons/md";
+import AddTodo from './AddTodo'
+import { MdDelete, MdModeEdit } from "react-icons/md";
 
 
 const Todos = () => {
@@ -11,6 +12,8 @@ const Todos = () => {
   const [todos, setTodos] = useState([]);
   let [allTodos, setAllTodos] = useState([])
   const [searchValues, setSearchValues] = useState([])
+  const [isUpdate, setIsUpdate] = useState(-1);
+  const [isAdd, setIsAdd] = useState(false);
   // const show = ["Serial", "Execution", "Alphabetical", "Random"];
   const show = [
     { value: 'Serial', label: 'Serial' },
@@ -22,28 +25,43 @@ const Todos = () => {
     { value: 'id', label: 'id' },
     { value: 'title', label: 'title' },
     { value: "completed", label: "completed" },];
-  useEffect(() => {
+
+  const getTodos = () => {
     fetch(`http://localhost:3000/todos?userId=${user.id}`)
       .then(async response => {
         const data = await response.json();
-        (!response.ok) ? setExist(false) : setExist(true);
+        response.ok ? setExist(true) : setExist(false);
         setTodos(data);
         setAllTodos(data)
       })
+  }
+
+  useEffect(() => {
+    getTodos()
   }, [])
 
-  const update = () => {
-
-  }
   const remove = (id) => {
 
     fetch(`http://localhost:3000/todos/${id}`, {
       method: 'DELETE'
     })
       .then(response => {
-        (!response.ok) && alert("oops somthing went wrong... please try again!")
+        response.ok ? getTodos() : alert("oops somthing went wrong... please try again!");
       })
   }
+
+  const update = (element, id) => {
+
+    fetch(`http://localhost:3000/todos/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ title: element.target[1].value, completed: element.target[0].checked })
+    }).then(async response => {
+      const data = await response.json();
+      console.log(data)
+      response.ok ? getTodos() : alert("oops somthing went wrong... please try again!")
+    });
+  }
+
 
   const sortByCategory = (category) => {
     console.log(category.value);
@@ -63,7 +81,6 @@ const Todos = () => {
         tempTodos.sort((a, b) => (a.title.toUpperCase() === b.title.toUpperCase()) ? 0 : (a.title.toUpperCase() < b.title.toUpperCase()) ? -1 : 1);
         break;
       case "Random":
-        // tempTodos = shuffle(tempTodos)
         tempTodos = tempTodos.sort(() => Math.random() - 0.5)
         break;
     }
@@ -117,17 +134,16 @@ const Todos = () => {
     <>
       <h2>here is your todos list...</h2>
       <h3>feel free to veiw, edit and remove:)</h3>
-      {!exist ? <AiOutlineLoading3Quarters /> : <div >
-        {/* <select onChange={(e) => sortByCategory(e.target.value)}>
-          {show.map((category, index) => <option key={index} value={category}> {category}</option>)}
-        </select> */}
+      {!exist ? <AiOutlineLoading3Quarters /> : < >
+        <button onClick={()=>setIsAdd(!isAdd)}>add todo</button>
+        {isAdd && <AddTodo setIsAdd={setIsAdd} getTodos={getTodos}/>}
         <Select
           placeholder='Sort todos by...'
-          components={animatecomponent}
           onChange={(e) => sortByCategory(e)}
           options={show}
           getOptionLabel={(show) => show["label"]}
           getOptionValue={(show) => show["value"]} />
+
         <Select
           placeholder='Search todos by...'
           components={animatecomponent}
@@ -138,7 +154,37 @@ const Todos = () => {
           getOptionValue={(search) => search["value"]} />
 
         {searchValues.length ? <form onSubmit={searchByOption}>{searchValues.map((value, index) => <input key={index} name={value.label} placeholder={value.label} />)}<input type="submit" /></form> : null}
-        {/* <table>
+
+        {todos.map((todo, index) =>
+          <div key={index}>
+            <span >id: {todo.id}</span>
+
+
+            {isUpdate != index ? <><span >title: {todo.title}</span> <label>completed</label>  <input type="checkbox" disabled={true} checked={todo.completed} /></> :
+              <form onSubmit={(e) => update(e, todo.id)}>
+                <label>completed</label>
+                <input type="checkbox" defaultChecked={todo.completed} />
+                <label>title: </label>
+                <input type="text" defaultValue={todo.title} />
+                <input type="submit" value='update todo'/>
+              </form>}
+            <button onClick={() => setIsUpdate(prevIsUpdate => prevIsUpdate === -1 ? index : -1)}><MdModeEdit /></button>
+            <button disabled={isUpdate === index} onClick={() => remove(todo.id)}><MdDelete /></button>
+          </div>
+        )}</>
+      }
+    </>
+  )
+}
+export default Todos
+
+//לחלק לקומפוננטות
+//מחיקת הסטוריה לאחר יציאה
+//לשמור ללוקל סטורג רק  שם ן ID 
+
+// ID רץ ולשמור בסרבר
+
+{/* <table>
           <thead>
             <tr>
               <th>ID</th>
@@ -155,17 +201,3 @@ const Todos = () => {
             })}
           </tbody>
         </table> */}
-        {todos.map((todo, index) =>
-          <form key={index}>
-            <span >id: {todo.id}</span> <span >title: "{todo.title}"</span>
-            <label>        completed</label>
-            <input type="checkbox" disabled={true} checked={todo.completed} />
-            <button onClick={update}><MdModeEdit /></button>
-            <button onClick={()=>remove(todo.id)}><MdDelete /></button>
-          </form>
-        )}</div>
-      }
-    </>
-  )
-}
-export default Todos
