@@ -4,8 +4,8 @@ import { MdDelete, MdModeEdit } from "react-icons/md";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 import SearchPosts from "./SearchPosts";
-import Comments from "./comments/Comments"
 import { Link } from "react-router-dom";
+import UpdatePost from "./UpdatePost";
 const Posts = () => {
   const user = JSON.parse(localStorage.getItem("currentUser"));
   const [exist, setExist] = useState(false);
@@ -26,31 +26,41 @@ const Posts = () => {
   useEffect(() => {
     getPosts()
   }, [])
+
+
+  const remove = (id) => {
+
+    fetch(`http://localhost:3000/posts/${id}`, {
+      method: 'DELETE'
+    })
+      .then(response => {
+        response.ok ? getPosts() : alert("oops somthing went wrong... please try again!");
+      })
+  }
   return (
     <>
       <h1>Posts</h1>
-<<<<<<< HEAD
-      <SearchPosts />
-=======
-      <SearchPosts setPosts={setPosts} allPosts={allPosts} posts={posts}/>
->>>>>>> aba49e43618bf1848df9f4c106da11b8cea117b0
+      <SearchPosts setPosts={setPosts} allPosts={allPosts} posts={posts} />
       {!exist ? <AiOutlineLoading3Quarters /> : < >
         {posts.map((post, index) =>
           <div style={{ fontWeight: (showBody === index) && 'bold' }} key={index}>
             <span>ID: {post.id}</span>
-            <span>TITLE: {post.title}</span>
-<<<<<<< HEAD
-            {showBody === index && <><span>BODY: {post.body}</span><br /><Link to={`./${post.id}/comments`}>comments</Link></>}
-=======
-            {showBody === index && <span>BODY: {post.body}</span>
-                        && <button onClick={() => setIsUpdate(prevIsUpdate => prevIsUpdate === -1 ? index : -1)}><MdModeEdit /></button>
-                        
+            {(isUpdate != index) ? <>
+              <span>TITLE: {post.title}</span>
+              <span>BODY: {post.body}</span>
+            </> : <UpdatePost post={post} getPosts={getPosts} setIsUpdate={setIsUpdate}/>}
+
+            {showBody === index && <>
+              <button onClick={() => setIsUpdate(prevIsUpdate => prevIsUpdate === -1 ? index : -1)}><MdModeEdit /></button>
+              <Link to={`./${post.id}/comments`}>comments</Link>
+            </>
+
             }
->>>>>>> aba49e43618bf1848df9f4c106da11b8cea117b0
             <button onClick={() => setShowBody(prevShowBody => prevShowBody === index ? -1 : index)}> {showBody === index ? <FaEyeSlash /> : <FaEye />}</button>
 
 
-            <button disabled={isUpdate === index} onClick={() => remove(todo.id)}><MdDelete /></button> 
+
+            <button disabled={isUpdate === index} onClick={() => remove(post.id)}><MdDelete /></button>
           </div>
         )}</>}
     </>

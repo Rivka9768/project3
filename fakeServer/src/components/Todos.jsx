@@ -153,7 +153,7 @@ const Todos = () => {
           getOptionLabel={(search) => search["label"]}
           getOptionValue={(search) => search["value"]} />
 
-        {searchValues.length ? <form onSubmit={searchByOption}>{searchValues.map((value, index) => <input key={index} name={value.label} placeholder={value.label} />)}<input type="submit" /></form> : null}
+        {searchValues.length ? <form onSubmit={searchByOption}>{searchValues.map((value, index) => <input key={index} name={value.label} placeholder={value.label} />)}<input type="submit" value="search"/></form> : null}
 
         {todos.map((todo, index) =>
           <div key={index}>
@@ -181,7 +181,7 @@ export default Todos
 //לחלק לקומפוננטות
 //מחיקת הסטוריה לאחר יציאה
 //לשמור ללוקל סטורג רק  שם ן ID 
-
+//
 // ID רץ ולשמור בסרבר
 
 {/* <table>

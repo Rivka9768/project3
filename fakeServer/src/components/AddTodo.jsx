@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const AddTodo = ({ setIsAdd,getTodos }) => {
+const AddTodo = ({ setIsAdd, getTodos }) => {
     const user = JSON.parse(localStorage.getItem("currentUser"));
 
 
@@ -15,14 +15,14 @@ const AddTodo = ({ setIsAdd,getTodos }) => {
             title: element.target[0].value,
             completed: element.target[1].checked
         }
-console.log(todo);
+        console.log(todo);
 
         fetch('http://localhost:3000/todos', {
             method: 'POST',
             body: JSON.stringify(todo),
         })
             .then(response => {
-                (!response.ok) ? alert("oops somthing went wrong... please try again!") :( setIsAdd(false) ,getTodos())
+                (!response.ok) ? alert("oops somthing went wrong... please try again!") : (setIsAdd(false), getTodos())
             })
 
     }
@@ -31,7 +31,7 @@ console.log(todo);
             <form onSubmit={addNewTodo}>
                 <input type="text" placeholder="title..." /><br />
                 <label htmlFor="checkbox">completed</label>
-                <input  id="checkbox" type="checkbox" /><br />
+                <input id="checkbox" type="checkbox" /><br />
                 <input type="submit" value='add todo' /><br />
             </form>
         </>
