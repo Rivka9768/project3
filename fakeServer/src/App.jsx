@@ -7,10 +7,11 @@ import './App.css'
 import UserInfo from './components/UserInfo';
 import Posts from './components/posts/Posts';
 import Todos from './components/Todos';
-import Albums from './components/Albums';
+import Albums from './components/albums/Albums';
 import Logout from "./components/Logout"
 import Comments from './components/posts/comments/Comments';
-import PostsLayout from './components/PostsLayout';
+import Layout from './components/Layout';
+import Photos from './components/albums/Photos';
 
 
 
@@ -34,8 +35,11 @@ function App() {
           <Route path='/' element={<Navigate to={'/login'} />} />
           <Route path='/home/users/:id' element={<Home />}>
             <Route path='logout' element={<Logout />} />
-            <Route path='albums' element={<Albums />} />
-            <Route path="posts" element={<PostsLayout />} >
+            <Route path='albums' element={<Layout />} >
+            <Route index element={<Albums />} />
+              <Route path=":id/photos" element={<Photos />} />
+            </Route>
+            <Route path="posts" element={<Layout />} >
               <Route index element={<Posts />} />
               <Route path=":id/comments" element={<Comments />} />
             </Route>

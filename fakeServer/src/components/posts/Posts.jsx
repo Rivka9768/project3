@@ -6,6 +6,8 @@ import { FaEyeSlash, FaEye } from "react-icons/fa";
 import SearchPosts from "./SearchPosts";
 import { Link } from "react-router-dom";
 import UpdatePost from "./UpdatePost";
+import Loading from "../Loading";
+import  Style from './loader.module.css'
 const Posts = () => {
   const user = JSON.parse(localStorage.getItem("currentUser"));
   const [exist, setExist] = useState(false);
@@ -22,9 +24,14 @@ const Posts = () => {
         setAllPosts(data)
       })
   }
-
+const[loading,setLoading]=useState(true)
   useEffect(() => {
     getPosts()
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    
   }, [])
 
 
@@ -37,11 +44,23 @@ const Posts = () => {
         response.ok ? getPosts() : alert("oops somthing went wrong... please try again!");
       })
   }
+
+
+
+
+
+
   return (
     <>
+
       <h1>Posts</h1>
       <SearchPosts setPosts={setPosts} allPosts={allPosts} posts={posts} />
-      {!exist ? <AiOutlineLoading3Quarters /> : < >
+      {loading?<div className={Style.loader}>
+    <div className={Style.circle}></div>
+    <div className={Style.circle}></div>
+    <div className={Style.circle}></div>
+    <div className={Style.circle}></div>
+</div> : < >
         {posts.map((post, index) =>
           <div style={{ fontWeight: (showBody === index) && 'bold' }} key={index}>
             <span>ID: {post.id}</span>

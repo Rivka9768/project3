@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Select from "react-select";
-const SearchPosts = ({ setPosts, allPosts, posts }) => {
+const SearchAlbums = ({ setAlbums, allAlbums, albums }) => {
     const [searchValue, setSearchValue] = useState()
 
     const selectOption = (e) => {
         setSearchValue(e)
-        e===null && setPosts(allPosts)
+        e===null && setAlbums(allAlbums)
     }
 
     const [loading, setLoading] = useState(false);
 
 
-    const searchPostsOptions = [
+    const searchAlbumsOptions = [
         { value: 'id', label: 'id' },
         { value: 'title', label: 'title' }]
 
@@ -21,41 +21,41 @@ const SearchPosts = ({ setPosts, allPosts, posts }) => {
         setTimeout(() => {
             setLoading(false);
           }, 1000);
-        let tempPosts = [];
+        let tempAlbums = [];
         switch (element.target[0].name) {
             case "id":
-                allPosts.forEach((post) => {
-                    if (searchValue.label != '' && post.id === element.target[0].value)
-                        tempPosts.push(post)
+                allAlbums.forEach((album) => {
+                    if (searchValue.label != '' && album.id === element.target[0].value)
+                        tempAlbums.push(album)
                 })
                 break;
             case "title":
-                allPosts.forEach((post) => {
-                    if (searchValue.label != '' && post.title === element.target[0].value)
-                        tempPosts.push(post)
+                allAlbums.forEach((album) => {
+                    if (searchValue.label != '' && album.title === element.target[0].value)
+                        tempAlbums.push(album)
                 })
                 element.target.reset()
-                setPosts(tempPosts)
+                setAlbums(tempAlbums)
         }
 
 
 
-        setPosts(tempPosts)
+        setAlbums(tempAlbums)
     }
     return (<>
         <Select
-            placeholder='search posts by...'
+            placeholder='search albums by...'
             onChange={(e) => selectOption(e)}
-            options={searchPostsOptions}
+            options={searchAlbumsOptions}
             isClearable
             isLoading={loading}
             isSearchable={true}
-            getOptionLabel={(searchPostsOptions) => searchPostsOptions["label"]}
-            getOptionValue={(searchPostsOptions) => searchPostsOptions["value"]} />
+            getOptionLabel={(searchAlbumsOptions) => searchAlbumsOptions["label"]}
+            getOptionValue={(searchAlbumsOptions) => searchAlbumsOptions["value"]} />
         {searchValue!=null && <form onSubmit={searchByOption}>
             <input name={searchValue.label} placeholder={searchValue.label} />
             <input type="submit" value="search" />
         </form>}
     </>)
 }
-export default SearchPosts
+export default SearchAlbums
