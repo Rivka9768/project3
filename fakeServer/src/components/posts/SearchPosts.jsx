@@ -16,6 +16,7 @@ const SearchPosts = ({ setPosts, allPosts, posts }) => {
         { value: 'title', label: 'title' }]
 
     const searchByOption = (element) => {
+        ///לעשות filter!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         element.preventDefault();
         setLoading(true)
         setTimeout(() => {

@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { useParams } from "react-router-dom";
 // import AddComment from '';
 import AddComment from "./AddComment";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import UpdateComment from "./UpdateComment";
+import { UserContext } from '../../../App'
 const Comments = () => {
-    const user = JSON.parse(localStorage.getItem("currentUser"));
+    const [currentUser, setCurrentUser] = useContext(UserContext);
     const { id } = useParams();
     const [comments, setComments] = useState([]);
     const [isAdd, setIsAdd] = useState(false)
@@ -42,7 +43,7 @@ const[isUpdate,setIsUpdate]=useState(-1)
                 <p>body: {comment.body}</p>
                 </>:<UpdateComment setIsUpdate={setIsUpdate} comment={comment} getComments={getComments}/>}
                 <br />
-                {user.email===comment.email&&<>
+                {currentUser.email===comment.email&&<>
                 <button onClick={() => setIsUpdate(prevIsUpdate => prevIsUpdate === -1 ? index : -1)}><MdModeEdit /></button>
                 <button disabled={isUpdate === index} onClick={() => remove(comment.id)}><MdDelete /></button>
                 </>}

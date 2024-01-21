@@ -1,17 +1,30 @@
-import React from "react";
+import React, {  useEffect ,useContext} from "react";
 
-
+import { UserContext } from '../../App'
 const AddTodo = ({ setIsAdd, getTodos }) => {
-    const user = JSON.parse(localStorage.getItem("currentUser"));
-
+    let id;
+    const [currentUser, setCurrentUser] = useContext(UserContext);
+    useEffect(() => {
+        fetch(`http://localhost:3000/nextIds/todos`)
+            .then(async response => {
+                const data = await response.json();
+                if (response.ok) {
+                    id = data.nextId;
+                    fetch(`http://localhost:3000/nextIds/todos`, {
+                        method: 'PATCH',
+                        body: JSON.stringify({ nextId: data.nextId + 1 })
+                    });
+                } else alert("ioufg");
+            })
+    }, [])
+    
 
     const addNewTodo = (element) => {
-        element.preventDefault();
-        //חישוב ID 
 
+        element.preventDefault();
         const todo = {
-            userId: user.id,
-            id: "512",
+            userId: currentUser.id,
+            id: id,
             title: element.target[0].value,
             completed: element.target[1].checked
         }

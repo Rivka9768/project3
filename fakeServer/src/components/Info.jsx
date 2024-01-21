@@ -1,5 +1,7 @@
-const UserInfo = () => {
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+import React,{useContext} from "react";
+import { UserContext } from '../App'
+const Info = () => {
+  const [currentUser, setCurrentUser] = useContext(UserContext);
   return (
     <>
       <h1>info</h1>
@@ -21,9 +23,7 @@ const UserInfo = () => {
       <p>name: {currentUser.company.name}</p>
       <p>catchPhrase: {currentUser.company.catchPhrase}</p>
       <p>bs: {currentUser.company.bs}</p>
-      
-  
     </>
   )
 }
-export default UserInfo
+export default Info

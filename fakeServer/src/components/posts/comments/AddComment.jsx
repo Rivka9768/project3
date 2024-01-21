@@ -1,16 +1,32 @@
-import React from "react";
-
+import React,{useEffect,useContext } from "react";
+import { UserContext } from '../../../App'
 
 const AddComment=({postId,setIsAdd,getComments})=>{
-   const user = JSON.parse(localStorage.getItem("currentUser"));
+
+let id;
+   useEffect(() => {
+      fetch(`http://localhost:3000/nextIds/comments`)
+          .then(async response => {
+              const data = await response.json();
+              if (response.ok) {
+                  id = data.nextId;
+                  fetch(`http://localhost:3000/nextIds/comments`, {
+                      method: 'PATCH',
+                      body: JSON.stringify({ nextId: data.nextId + 1 })
+                  });
+              } else alert("ioufg");
+          })
+  }, [])
+
+  const [currentUser, setCurrentUser] = useContext(UserContext);
    
    const addNewComment=(element)=>{
       element.preventDefault();
       const comment={
          postId:postId,
-         id:"55205",
+         id:id,
          name:element.target[0].value,
-        email:user.email,
+        email:currentUser.email,
          body:element.target[1].value
       }
       console.log(comment);

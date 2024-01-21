@@ -1,40 +1,46 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext,useState,useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
 import './App.css'
-import UserInfo from './components/UserInfo';
+import Info from './components/Info';
 import Posts from './components/posts/Posts';
-import Todos from './components/Todos';
+import Todos from './components/todos/Todos';
 import Albums from './components/albums/Albums';
-import Logout from "./components/Logout"
+
 import Comments from './components/posts/comments/Comments';
 import Layout from './components/Layout';
-import Photos from './components/albums/Photos';
+import Photos from './components/albums/photos/Photos';
 
 
 
 
-
+export const UserContext = createContext();
 
 function App() {
-  // const UserContext = createContext(null);
-  // const [currentUser, setCurrentUser] = useState({})
-  // const set = (user) => {
-  //   setCurrentUser(user);
-  // };
-  // useEffect(() => {
-  //   localStorage.setItem('currentUser', JSON.stringify(currentUser));
-  // }, [currentUser]);
+ 
+  const [currentUser, setCurrentUser] = useState({})
+
+  useEffect(() => {
+    const currntUser=JSON.parse(localStorage.getItem("currentUser"))
+
+   currntUser&& fetch(`http://localhost:3000/users?username=${currntUser.username}`)
+    .then(async response => {
+      const data = await response.json();
+      response.ok   && setCurrentUser(data[0])
+     
+    })
+    
+  }, []);
   return (
     <>
-      {/* <UserContext.Provider value={{currentUser,setCurrentUser}}> */}
+      <UserContext.Provider value={[currentUser,setCurrentUser]}>
       <Router>
         <Routes >
           <Route path='/' element={<Navigate to={'/login'} />} />
           <Route path='/home/users/:id' element={<Home />}>
-            <Route path='logout' element={<Logout />} />
+
             <Route path='albums' element={<Layout />} >
             <Route index element={<Albums />} />
               <Route path=":id/photos" element={<Photos />} />
@@ -44,13 +50,13 @@ function App() {
               <Route path=":id/comments" element={<Comments />} />
             </Route>
             <Route path='todos' element={<Todos />} />
-            <Route path='info' element={<UserInfo />} />
+            <Route path='info' element={<Info />} />
           </Route>
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
         </Routes>
       </Router>
-      {/* </UserContext.Provider> */}
+      </UserContext.Provider>
     </>
   )
 }

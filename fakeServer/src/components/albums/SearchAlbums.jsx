@@ -1,11 +1,11 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Select from "react-select";
 const SearchAlbums = ({ setAlbums, allAlbums, albums }) => {
     const [searchValue, setSearchValue] = useState()
 
     const selectOption = (e) => {
         setSearchValue(e)
-        e===null && setAlbums(allAlbums)
+        e === null && setAlbums(allAlbums)
     }
 
     const [loading, setLoading] = useState(false);
@@ -20,7 +20,7 @@ const SearchAlbums = ({ setAlbums, allAlbums, albums }) => {
         setLoading(true)
         setTimeout(() => {
             setLoading(false);
-          }, 1000);
+        }, 1000);
         let tempAlbums = [];
         switch (element.target[0].name) {
             case "id":
@@ -52,7 +52,7 @@ const SearchAlbums = ({ setAlbums, allAlbums, albums }) => {
             isSearchable={true}
             getOptionLabel={(searchAlbumsOptions) => searchAlbumsOptions["label"]}
             getOptionValue={(searchAlbumsOptions) => searchAlbumsOptions["value"]} />
-        {searchValue!=null && <form onSubmit={searchByOption}>
+        {searchValue != null && <form onSubmit={searchByOption}>
             <input name={searchValue.label} placeholder={searchValue.label} />
             <input type="submit" value="search" />
         </form>}

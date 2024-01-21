@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
@@ -7,15 +7,16 @@ import SearchPosts from "./SearchPosts";
 import { Link } from "react-router-dom";
 import UpdatePost from "./UpdatePost";
 import  Style from './loader.module.css'
+import { UserContext } from '../../App'
 const Posts = () => {
-  const user = JSON.parse(localStorage.getItem("currentUser"));
+  const [currentUser, setCurrentUser] = useContext(UserContext);
   const [exist, setExist] = useState(false);
   const [posts, setPosts] = useState([]);
   const [showBody, setShowBody] = useState(-1)
   let [allPosts, setAllPosts] = useState([])
   const [isUpdate, setIsUpdate] = useState(-1);
   const getPosts = () => {
-    fetch(`http://localhost:3000/posts?userId=${user.id}`)
+    fetch(`http://localhost:3000/posts?userId=${currentUser.id}`)
       .then(async response => {
         const data = await response.json();
         response.ok ? setExist(true) : setExist(false);

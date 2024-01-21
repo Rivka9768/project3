@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
-
+import { UserContext } from '../App'
 // import { UserContext } from '../App';
 
 
 const Login = () => {
-    // const [currentUser,setCurrentUser] = useContext(UserContext);
+    //debugger
+    const [currentUser, setCurrentUser] = useContext(UserContext);
     const [exist, setExist] = useState(true);
     const navigate = useNavigate();
     const goToHome = (data) => {
-        localStorage.setItem('currentUser', JSON.stringify(data));
-        //    setCurrentUser(data)
+        setCurrentUser(data)
+        localStorage.setItem('currentUser', JSON.stringify({username:data.username,id:data.id}));
         navigate(`/home/users/${data.id}`)
     }
 
