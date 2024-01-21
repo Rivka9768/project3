@@ -6,7 +6,6 @@ import { FaEyeSlash, FaEye } from "react-icons/fa";
 import SearchPosts from "./SearchPosts";
 import { Link } from "react-router-dom";
 import UpdatePost from "./UpdatePost";
-import Loading from "../Loading";
 import  Style from './loader.module.css'
 const Posts = () => {
   const user = JSON.parse(localStorage.getItem("currentUser"));
