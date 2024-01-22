@@ -32,7 +32,7 @@ const[loading,setLoading]=useState(true)
       setLoading(false);
     }, 2000);
     
-  }, [])
+  },  [currentUser])
 
 
   const remove = (id) => {

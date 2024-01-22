@@ -1,6 +1,5 @@
 import React, { useState, useEffect,useContext } from "react";
 import { useParams } from "react-router-dom";
-// import AddComment from '';
 import AddComment from "./AddComment";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import UpdateComment from "./UpdateComment";
@@ -19,7 +18,7 @@ const[isUpdate,setIsUpdate]=useState(-1)
     }
     useEffect(() => {
         getComments()
-    }, [])
+    },  [currentUser])
     const remove = (id) => {
         fetch(`http://localhost:3000/comments/${id}`, {
           method: 'DELETE'

@@ -4,7 +4,6 @@ import Select from "react-select";
 import makeAnimated from 'react-select/animated'
 const SearchTodos = ({setTodos ,allTodos}) => {
 
-
     const animatecomponent = makeAnimated();
     const search = [
       { value: 'id', label: 'id' },
@@ -40,7 +39,6 @@ const SearchTodos = ({setTodos ,allTodos}) => {
         }
         element.target.reset()
         let tempSelectedTodos = [];
-        // allTodos.map(t => tempSelectedTodos.push(t));
         console.log(values)
         allTodos.forEach((todo) => {
             console.log(todo)

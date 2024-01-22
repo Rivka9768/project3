@@ -1,8 +1,5 @@
 import React,{useEffect} from "react";
-
-
 const AddPhoto = ({ albumId, setIsAdd, getPhotos,setEnd,setStart }) => {
-
 let id;
 useEffect(() => {
    fetch(`http://localhost:3000/nextIds/photos`)
@@ -43,10 +40,7 @@ window.location.reload();//לבדוק אם יש אפשרות לשנות
 
    return (
       <>
-
-
          <h1>add</h1>
-
          <form onSubmit={addNewPhoto}>
             <input type="text" placeholder="title..." /><br />
             <input type="url" placeholder="url..." /><br/>

@@ -2,7 +2,7 @@ import React,{useState,useEffect,useContext} from "react";
 import SearchAlbums from "./SearchAlbums";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import AddAlbum from "./AddAlbum";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { UserContext } from '../../App'
 
 const Albums = () => {
@@ -23,7 +23,7 @@ const Albums = () => {
 
   useEffect(() => {
     getAlbums()
-  }, [])
+  },  [currentUser])
 
   return (
         <>

@@ -43,8 +43,6 @@ let id;
    
    return(
       <>
-
-
          <h1>add</h1>
 
              <form onSubmit={addNewComment}>

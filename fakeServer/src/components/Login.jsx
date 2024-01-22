@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { UserContext } from '../App'
 // import { UserContext } from '../App';
 
 
 const Login = () => {
-    //debugger
+
     const [currentUser, setCurrentUser] = useContext(UserContext);
     const [exist, setExist] = useState(true);
     const navigate = useNavigate();
@@ -54,6 +55,7 @@ const Login = () => {
                 <input type="password" name="password" id="" placeholder='password' />
                 <input type="submit" value="Log In" />
             </form>
+            <div>Are you a non-existent user? <Link style={{textDecoration:'underline'}}to={'/register'}>please sign up</Link></div>
         </>
     )
 }
