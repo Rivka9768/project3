@@ -32,8 +32,14 @@ const Login = () => {
     }
 
     const logIn = (data) => {
+        if ((/^[a-zA-Z.]+$/.test(data.password) === false) || data.password.indexOf('.') === -1){
+            setExist(false)
+            return
+        }
         isExist(data.username, data.password)
     }
+
+
 
     return (
         <>
@@ -43,7 +49,7 @@ const Login = () => {
                 <input type='text' name='username' placeholder='username'
                     {...register("username", {
                         required: "username is required.",
-                    })} /> 
+                    })} />
                     {errors.username ? <p>{errors.username.message}</p>:<br/>}
                 <input type="password" name="password" id="" placeholder='password'
                   {...register("password", {
