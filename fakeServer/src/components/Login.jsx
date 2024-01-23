@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../App'
-// import { UserContext } from '../App';
+import { useForm } from 'react-hook-form';
 
 
 const Login = () => {
@@ -10,9 +10,16 @@ const Login = () => {
     const [currentUser, setCurrentUser] = useContext(UserContext);
     const [exist, setExist] = useState(true);
     const navigate = useNavigate();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors }
+    } = useForm();
+
     const goToHome = (data) => {
         setCurrentUser(data)
-        localStorage.setItem('currentUser', JSON.stringify({username:data.username,id:data.id}));
+        localStorage.setItem('currentUser', JSON.stringify({ username: data.username, id: data.id }));
         navigate(`/home/users/${data.id}`)
     }
 
@@ -24,38 +31,28 @@ const Login = () => {
             })
     }
 
-    const logIn = (event) => {
-        event.preventDefault();
-        const [name, password] = event.target;
-        debugger
-        if (!validateInput(name.value, password.value)) {
-            setExist(false);
-            return
-        }
-        setExist(true);
-        isExist(name.value, password.value)
-    }
-
-    const validateInput = (name, password) => {
-        if (/^[a-zA-Z. ]+$/.test(name) === false)//האם לאפשר שגם מספרים ותווים
-            return false;
-        if ((/^[a-zA-Z.]+$/.test(password) === false) || password.indexOf('.') === -1)
-            return false;
-        if (!name || !password)
-            return false;
-        return true;
+    const logIn = (data) => {
+        isExist(data.username, data.password)
     }
 
     return (
         <>
             <h1>login</h1>
             {!exist && <div>Incorrect username or password</div>}
-            <form noValidate onSubmit={logIn}>
-                <input type='text' name='name' placeholder='username' ></input>
-                <input type="password" name="password" id="" placeholder='password' />
+            <form noValidate onSubmit={handleSubmit(logIn)}>
+                <input type='text' name='username' placeholder='username'
+                    {...register("username", {
+                        required: "username is required.",
+                    })} /> 
+                    {errors.username ? <p>{errors.username.message}</p>:<br/>}
+                <input type="password" name="password" id="" placeholder='password'
+                  {...register("password", {
+                    required: "password is required.",
+                })} />
+                {errors.password ? <p>{errors.password.message}</p>:<br/>}
                 <input type="submit" value="Log In" />
             </form>
-            <div>Are you a non-existent user? <Link style={{textDecoration:'underline'}}to={'/register'}>please sign up</Link></div>
+            <div>new here? <Link style={{ textDecoration: 'underline' }} to={'/register'}>please sign up</Link></div>
         </>
     )
 }
