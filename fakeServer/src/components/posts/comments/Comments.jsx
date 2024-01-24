@@ -7,14 +7,14 @@ import { UserContext } from '../../../App'
 import './comments.css'
 const Comments = () => {
     const [currentUser, setCurrentUser] = useContext(UserContext);
-    const { id } = useParams();
+    const { postId } = useParams();
     const [comments, setComments] = useState([]);
     const [isAdd, setIsAdd] = useState(false)
 const[isUpdate,setIsUpdate]=useState(-1)
 
     const getComments = () => {
         debugger
-        fetch(`http://localhost:3000/comments?postId=${id}`)
+        fetch(`http://localhost:3000/comments?postId=${postId}`)
         .then(async response => {
             const data = await response.json();
             response.ok ?  setComments(data) : alert("notExist")})
@@ -37,8 +37,8 @@ const[isUpdate,setIsUpdate]=useState(-1)
         <>
 
             <button onClick={() => setIsAdd(!isAdd)}>add comment</button>
-            {isAdd && <AddComment postId={id} setIsAdd={setIsAdd} getComments={getComments} />}
-            <h3>comments for post id {id}</h3>
+            {isAdd && <AddComment postId={postId} setIsAdd={setIsAdd} getComments={getComments} />}
+            <h3>comments for post id {postId}</h3>
             <div className="container">
             {comments.map((comment, index) => <div  className="bubble" key={index}>
                 <p>postId: {comment.postId}</p>

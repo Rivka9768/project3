@@ -5,10 +5,10 @@ import InfiniteScroll from 'react-infinite-scroller';
 import AddPhoto from "./AddPhoto";
 import UpdatePhoto from "./UpdetePhoto";
 import { MdDelete, MdModeEdit } from "react-icons/md";
-
+import './photo.css'
 const Photos = () => {
 
-  const { id } = useParams();
+  const { albumId } = useParams();
   const [items, setItems] = useState([]);
   const [isAdd, setIsAdd] = useState(false);
   const [isUpdate, setIsUpdate] = useState(-1);
@@ -21,7 +21,7 @@ const Photos = () => {
   const getPhotos = () => {
 
     setTimeout(() => {
-      fetch(`http://localhost:3000/photos?albumId=${id}&&_page=${page}`)
+      fetch(`http://localhost:3000/photos?albumId=${albumId}&&_page=${page}`)
         .then(async response => {
           const data = await response.json();
           if (response.ok) {
@@ -60,15 +60,18 @@ const Photos = () => {
         hasMore={hasMore}
         loader={<div className="loader" key={0}>Loading ...</div>}
       >
-        <div style={{ minHeight: "100vh" }}>
+        <div className="photo-container">
           {items.map((photo, index) => (
-            <span key={index} >
+            <div className="photo-item">
+            <span key={index} className="photo-item">
               <img src={photo.thumbnailUrl} />
               <button onClick={() => setIsUpdate(prevIsUpdate => prevIsUpdate === -1 ? index : -1)}><MdModeEdit /></button>
               <button disabled={isUpdate === index} onClick={() => remove(photo.id)}><MdDelete /></button>
               {isUpdate === index &&
                 <UpdatePhoto setItems={setItems} setPage={setPage} setIsUpdate={setIsUpdate} photo={photo} getPhotos={getPhotos} />}
+               
             </span>
+            </div>
           ))}
         </div>
         {console.log(items)}
