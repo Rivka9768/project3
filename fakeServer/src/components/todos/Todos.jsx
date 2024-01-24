@@ -23,9 +23,9 @@ const Todos = () => {
     fetch(`http://localhost:3000/todos?userId=${currentUser.id}`)
       .then(async response => {
         const data = await response.json();
-        response.ok ? setExist(true) : setExist(false);
-        setTodos(data);
-        setAllTodos(data)
+        response.ok &&(
+        setTodos(data),
+        setAllTodos(data))
       })
   }
 
