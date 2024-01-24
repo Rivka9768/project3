@@ -4,7 +4,6 @@ import Home from './components/home/Home';
 import Login from './components/Login';
 import Register from './components/register/Register';
 import './App.css'
-import Info from './components/Info';
 import Posts from './components/posts/Posts';
 import Todos from './components/todos/Todos';
 import Albums from './components/albums/Albums';
@@ -12,6 +11,7 @@ import Comments from './components/posts/comments/Comments';
 import Layout from './components/Layout';
 import Photos from './components/albums/photos/Photos';
 import Error from './components/error';
+import Info from './components/info/Info';
 
 export const UserContext = createContext();
 
@@ -63,7 +63,7 @@ function App() {
                 <Route path=":postId/comments" element={<Comments />} />
               </Route>
               <Route path='todos' element={<Todos />} />
-              <Route path='info' element={<Info />} />
+              <Route path='info' element={<Info/>} />
             </Route>
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />

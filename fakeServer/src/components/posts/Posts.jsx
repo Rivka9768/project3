@@ -6,7 +6,7 @@ import { FaEyeSlash, FaEye } from "react-icons/fa";
 import SearchPosts from "./SearchPosts";
 import { Link } from "react-router-dom";
 import UpdatePost from "./UpdatePost";
-import Style from './loader.module.css'
+import Style from '../loader.module.css'
 import { UserContext } from '../../App'
 import './posts.css'
 const Posts = () => {
