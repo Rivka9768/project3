@@ -11,8 +11,6 @@ import './todosStyle.css'
 const Todos = () => {
 
   const [currentUser, setCurrentUser] = useContext(UserContext);
-  // const user = JSON.parse(localStorage.getItem("currentUser"));
-
   const [exist, setExist] = useState(false);
   const [todos, setTodos] = useState([]);
   let [allTodos, setAllTodos] = useState([])
@@ -29,9 +27,7 @@ const Todos = () => {
       })
   }
 
-  console.log(todos);
   useEffect(() => {
-    console.log(`curr  ${currentUser}`)
     getTodos()
   }, [currentUser])
 
@@ -46,14 +42,12 @@ const Todos = () => {
 
   return (
     <>
-
       {!exist ? <AiOutlineLoading3Quarters /> : < >
         <button onClick={() => setIsAdd(!isAdd)}>add todo</button>
         {isAdd && <AddTodo setIsAdd={setIsAdd} getTodos={getTodos} />}
         <div className="todos_container">
           <SortTodos todos={todos} setTodos={setTodos} setAllTodos={setAllTodos} />
           <SearchTodos setTodos={setTodos} allTodos={allTodos} />
-
           {todos.map((todo, index) =>
             <div className="todo_item" key={index}>
               {isUpdate != index ? <>

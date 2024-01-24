@@ -2,10 +2,13 @@
   
   
   .loader {
+    
     --dim: 3rem;
     width: var(--dim);
     height: var(--dim);
     position: relative;
+    margin: 8% 2% 0 10%;
+    margin-left: 40%;
     animation: spin988 2s linear infinite;
   }
   

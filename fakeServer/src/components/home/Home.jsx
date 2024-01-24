@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useParams, NavLink, Outlet, useNavigate } from 'react-router-dom'
-import { UserContext } from '../App'
+import { UserContext } from '../../App'
 
 import './Home.css'
 const Home = () => {

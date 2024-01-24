@@ -24,22 +24,12 @@ const SearchAlbums = ({ setAlbums, allAlbums, albums }) => {
         let tempAlbums = [];
         switch (element.target[0].name) {
             case "id":
-                allAlbums.forEach((album) => {
-                    if (searchValue.label != '' && album.id === element.target[0].value)
-                        tempAlbums.push(album)
-                })
+                tempAlbums = allAlbums.filter(album => (searchValue.label != '' && album.id === element.target[0].value))
                 break;
             case "title":
-                allAlbums.forEach((album) => {
-                    if (searchValue.label != '' && album.title === element.target[0].value)
-                        tempAlbums.push(album)
-                })
-                element.target.reset()
-                setAlbums(tempAlbums)
+                tempAlbums = allAlbums.filter(album => (searchValue.label != '' && album.title === element.target[0].value))
         }
-
-
-
+        element.target.reset()
         setAlbums(tempAlbums)
     }
     return (<>

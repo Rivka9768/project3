@@ -57,15 +57,15 @@ input[type="checkbox"]:before {
     transition: 0.5s;
 }
 
-.btnRemovePost{
-    margin-top: -5.2%;
+/* .btnRemovePost{
+    margin-top: -10.2%;
    margin-left: 9.5%; 
 }
 .btmShowBody{
-margin-right: 14%;
-margin-top:1% ;
+margin-right: 25%;
+margin-top:7.5% ;
 color: rgba(99, 106, 235, 0.866);
-}
+} */
 .card {
     /* position: relative; */
     /* width: 300px; */

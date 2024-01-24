@@ -28,7 +28,21 @@ const UserDetailes = ({ username, password }) => {
     } = useForm();
 
     const goToHome = (data) => {
-        setCurrentUser(data)
+        setCurrentUser({ id: data.id,
+            name: data.name,
+            username: data.username,
+            email: data.email,
+            street: data.address.street,
+            suite: data.address.suite,
+            city: data.address.city,
+            zipcode: data.address.zipcode,
+            lat: data.address.geo.lat,
+            lng: data.address.geo.lng,
+            phone: data.phone,
+            website: data.website,
+            companyName: data.company.name,
+            catchPhrase: data.company.catchPhrase,
+            bs: data.company.bs})
         localStorage.setItem('currentUser', JSON.stringify({ username:username, id:id }));
         navigate(`/home/users/${data.id}`)
     }

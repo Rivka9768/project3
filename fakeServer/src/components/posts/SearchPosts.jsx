@@ -5,7 +5,7 @@ const SearchPosts = ({ setPosts, allPosts, posts }) => {
 
     const selectOption = (e) => {
         setSearchValue(e)
-        e===null && setPosts(allPosts)
+        e === null && setPosts(allPosts)
     }
 
     const [loading, setLoading] = useState(false);
@@ -16,31 +16,20 @@ const SearchPosts = ({ setPosts, allPosts, posts }) => {
         { value: 'title', label: 'title' }]
 
     const searchByOption = (element) => {
-        ///לעשות filter!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         element.preventDefault();
         setLoading(true)
         setTimeout(() => {
             setLoading(false);
-          }, 1000);
+        }, 1000);
         let tempPosts = [];
         switch (element.target[0].name) {
             case "id":
-                allPosts.forEach((post) => {
-                    if (searchValue.label != '' && post.id === element.target[0].value)
-                        tempPosts.push(post)
-                })
+                tempPosts = allPosts.filter(post => (searchValue.label != '' && post.id === element.target[0].value))
                 break;
             case "title":
-                allPosts.forEach((post) => {
-                    if (searchValue.label != '' && post.title === element.target[0].value)
-                        tempPosts.push(post)
-                })
-                element.target.reset()
-                setPosts(tempPosts)
+                tempPosts = allPosts.filter(post => (searchValue.label != '' && post.title === element.target[0].value))
         }
-
-
-
+        element.target.reset()
         setPosts(tempPosts)
     }
     return (<>
@@ -53,7 +42,7 @@ const SearchPosts = ({ setPosts, allPosts, posts }) => {
             isSearchable={true}
             getOptionLabel={(searchPostsOptions) => searchPostsOptions["label"]}
             getOptionValue={(searchPostsOptions) => searchPostsOptions["value"]} />
-        {searchValue!=null && <form onSubmit={searchByOption}>
+        {searchValue != null && <form onSubmit={searchByOption}>
             <input name={searchValue.label} placeholder={searchValue.label} />
             <input type="submit" value="search" />
         </form>}

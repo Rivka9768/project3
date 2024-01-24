@@ -53,7 +53,7 @@ const Photos = () => {
       <h1>photos</h1>
       <h3> album:{album.id} {album.title}</h3>
       <button onClick={() => setIsAdd(!isAdd)}>add photo</button>
-      {isAdd && <AddPhoto albumId={id} setIsAdd={setIsAdd} getPhotos={getPhotos} />}
+      {isAdd && <AddPhoto albumId={id} setIsAdd={setIsAdd} />}
 
       <InfiniteScroll
         loadMore={getPhotos}
@@ -63,14 +63,14 @@ const Photos = () => {
         <div className="photo-container">
           {items.map((photo, index) => (
             <div className="photo-item">
-            <span key={index} className="photo-item">
-              <img src={photo.thumbnailUrl} />
-              <button onClick={() => setIsUpdate(prevIsUpdate => prevIsUpdate === -1 ? index : -1)}><MdModeEdit /></button>
-              <button disabled={isUpdate === index} onClick={() => remove(photo.id)}><MdDelete /></button>
-              {isUpdate === index &&
-                <UpdatePhoto setItems={setItems} setPage={setPage} setIsUpdate={setIsUpdate} photo={photo} getPhotos={getPhotos} />}
-               
-            </span>
+              <span key={index} className="photo-item">
+                <img src={photo.thumbnailUrl} />
+                <button onClick={() => setIsUpdate(prevIsUpdate => prevIsUpdate === -1 ? index : -1)}><MdModeEdit /></button>
+                <button disabled={isUpdate === index} onClick={() => remove(photo.id)}><MdDelete /></button>
+                {isUpdate === index &&
+                  <UpdatePhoto setIsUpdate={setIsUpdate} photo={photo} getPhotos={getPhotos} />}
+
+              </span>
             </div>
           ))}
         </div>

@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Home from './components/Home';
+import Home from './components/home/Home';
 import Login from './components/Login';
 import Register from './components/register/Register';
 import './App.css'
@@ -39,13 +39,13 @@ function App() {
   useEffect(() => {
    
     const currntUser = JSON.parse(localStorage.getItem("currentUser"))
-    console.log(currntUser)
     currntUser && fetch(`http://localhost:3000/users/${currntUser.id}`)
       .then(async response => {
         const data = await response.json() ;
         response.ok && setCurrentUser( ()=>user( data ))
       })
   }, []);
+
 
   return (
     <>

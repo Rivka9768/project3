@@ -11,9 +11,6 @@ const Info = () => {
         <p>username: {currentUser.username}</p>
         <p>email: {currentUser.email}</p>
         <label >address:</label>
-        {console.log(currentUser)}
-
-        {console.log(currentUser.street)}
         <p>street: {currentUser.street}</p>
         <p>suite: {currentUser.suite}</p>
         <p>city: {currentUser.city}</p>

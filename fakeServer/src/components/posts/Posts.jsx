@@ -11,7 +11,6 @@ import { UserContext } from '../../App'
 import './posts.css'
 const Posts = () => {
   const [currentUser, setCurrentUser] = useContext(UserContext);
-  const [exist, setExist] = useState(false);
   const [posts, setPosts] = useState([]);
   const [showBody, setShowBody] = useState(-1)
   let [allPosts, setAllPosts] = useState([])
@@ -20,15 +19,12 @@ const Posts = () => {
     fetch(`http://localhost:3000/posts?userId=${currentUser.id}`)
       .then(async response => {
         const data = await response.json();
-        response.ok ? setExist(true) : setExist(false);
-        setPosts(data);
-        setAllPosts(data)
+        response.ok? (setPosts(data),setAllPosts(data)): alert("oops somthing went wrong...")
       })
   }
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     getPosts()
-
     setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -50,8 +46,6 @@ const Posts = () => {
     <>
       <h1>Posts</h1>
       <div className="posts_container">
-
-
         <SearchPosts setPosts={setPosts} allPosts={allPosts} posts={posts} />
         {loading ? <div className={Style.loader}>
           <div className={Style.circle}></div>
@@ -64,9 +58,9 @@ const Posts = () => {
               <span>ID: {post.id}</span>
               {(isUpdate != index) ? <>
                 <span>TITLE: {post.title}</span>
-                <span>BODY: {post.body}</span>
               </> : <UpdatePost post={post} getPosts={getPosts} setIsUpdate={setIsUpdate} />}
               {showBody === index && <>
+                <span>BODY: {post.body}</span>
                 <button onClick={() => setIsUpdate(prevIsUpdate => prevIsUpdate === -1 ? index : -1)}><MdModeEdit /></button>
                 <Link to={`./${post.id}/comments`}>comments</Link>
               </>

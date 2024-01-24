@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-const AddPhoto = ({ albumId, setIsAdd, getPhotos, setEnd, setStart }) => {
+const AddPhoto = ({ albumId, setIsAdd }) => {
    let id;
    useEffect(() => {
       fetch(`http://localhost:3000/nextIds/photos`)

@@ -15,14 +15,11 @@ const SearchTodos = ({ setTodos, allTodos }) => {
     const [searchValues, setSearchValues] = useState([])
 
     const selectOption = (e) => {
-
         setSearchValues(e)
-        console.log(e.length)
         e.length === 0 && setTodos(allTodos)
 
     }
     const searchByOption = (element) => {
-        debugger
         element.preventDefault();
         let values = [{ type: "id", value: "" }, { type: "title", value: "" }, { type: "completed", value: null }];
         for (let i = 0; i < element.target.length - 1; i++) {
@@ -40,19 +37,14 @@ const SearchTodos = ({ setTodos, allTodos }) => {
         }
         element.target.reset()
         let tempSelectedTodos = [];
-        console.log(values)
         allTodos.forEach((todo) => {
-            console.log(todo)
             if (((values[0].value != "") ? todo.id === values[0].value : true)
                 && ((values[1].value != "") ? todo.title === values[1].value : true)
                 && ((values[2].value != null) ? todo.completed === values[2].value : true)
             ) {
                 tempSelectedTodos.push(todo)
             }
-            else
-                console.log("!ok")
         })
-        console.log(tempSelectedTodos)
         setTodos(tempSelectedTodos)
     }
 
