@@ -1,15 +1,16 @@
 
-import React,{useState} from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 import makeAnimated from 'react-select/animated'
-const SearchTodos = ({setTodos ,allTodos}) => {
+import { FaSearch } from "react-icons/fa";
+const SearchTodos = ({ setTodos, allTodos }) => {
 
     const animatecomponent = makeAnimated();
     const search = [
-      { value: 'id', label: 'id' },
-      { value: 'title', label: 'title' },
-      { value: "completed", label: "completed" },];
-  
+        { value: 'id', label: 'id' },
+        { value: 'title', label: 'title' },
+        { value: "completed", label: "completed" },];
+
 
     const [searchValues, setSearchValues] = useState([])
 
@@ -23,7 +24,7 @@ const SearchTodos = ({setTodos ,allTodos}) => {
     const searchByOption = (element) => {
         debugger
         element.preventDefault();
-        let values = [{ type: "id", value: "" }, { type: "title", value: "" }, { type: "completed", value: null}];
+        let values = [{ type: "id", value: "" }, { type: "title", value: "" }, { type: "completed", value: null }];
         for (let i = 0; i < element.target.length - 1; i++) {
             switch (element.target[i].name) {
                 case "id":
@@ -33,7 +34,7 @@ const SearchTodos = ({setTodos ,allTodos}) => {
                     values[1] = { ...values[1], value: element.target[i].value }
                     break;
                 case "completed":
-                    values[2] = { ...values[2], value:( element.target[i].value === "true" ? true : false) }
+                    values[2] = { ...values[2], value: (element.target[i].value === "true" ? true : false) }
                     break;
             }
         }
@@ -61,23 +62,26 @@ const SearchTodos = ({setTodos ,allTodos}) => {
 
 
     return (<>
-        <Select
-            placeholder='Search todos by...'
-            components={animatecomponent}
-            onChange={(e) => selectOption(e)}
-            options={search}
-            isMulti
-            getOptionLabel={(search) => search["label"]}
-            getOptionValue={(search) => search["value"]} />
 
-        {searchValues.length ?
-            <form onSubmit={searchByOption}>
-                {searchValues.map((value, index) =>
-                    <input key={index} name={value.label} placeholder={value.label} />)}
-                <input type="submit" value="search" />
-            </form> : null}
-    </>)
+            <Select
+                menuPlacement="auto"
+                menuPosition="fixed"
+                placeholder='Search todos by...'
+                components={animatecomponent}
+                onChange={(e) => selectOption(e)}
+                options={search}
+                isMulti
+                getOptionLabel={(search) => search["label"]}
+                getOptionValue={(search) => search["value"]} />
+
+            {searchValues.length ?
+                <form onSubmit={searchByOption}>
+                    {searchValues.map((value, index) =>
+                        <input key={index} name={value.label} placeholder={value.label} />)}
+                    <button type="submit"><FaSearch /></button>
+                </form> : null}
+        </>)
 }
 
 
-export default SearchTodos
+        export default SearchTodos

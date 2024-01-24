@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
-import Register from './components/Register';
+import Register from './components/register/Register';
 import './App.css'
 import Info from './components/Info';
 import Posts from './components/posts/Posts';
@@ -11,6 +11,7 @@ import Albums from './components/albums/Albums';
 import Comments from './components/posts/comments/Comments';
 import Layout from './components/Layout';
 import Photos from './components/albums/photos/Photos';
+import Error from './components/error';
 
 export const UserContext = createContext();
 
@@ -64,6 +65,7 @@ function App() {
             </Route>
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
+            <Route path='/error' element={<Error />} />
           </Routes>
         </Router>
       </UserContext.Provider>

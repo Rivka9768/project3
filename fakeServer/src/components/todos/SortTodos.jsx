@@ -8,11 +8,11 @@ const SortTodos = ({ todos, setTodos, setAllTodos }) => {
         { value: "Alphabetical", label: "Alphabetical" },
         { value: "Random", label: "Random" },];
     const sortByCategory = (category) => {
-        console.log(category.value);
+        const value = (!category) ? "Serial" : category.value
         let tempTodos = [];
         todos.map(t => tempTodos.push(t));
-        debugger;
-        switch (category.value) {
+
+        switch (value) {
 
             case "Serial":
                 tempTodos.sort((a, b) => a.id - b.id);
@@ -34,12 +34,17 @@ const SortTodos = ({ todos, setTodos, setAllTodos }) => {
     }
     return (
         <>
-            <Select
-                placeholder='Sort todos by...'
-                onChange={(e) => sortByCategory(e)}
-                options={categories}
-                getOptionLabel={(categories) => categories["label"]}
-                getOptionValue={(categories) => categories["value"]} />
+           
+                <Select
+                    menuPlacement="auto"
+                    menuPosition="fixed"
+                    isClearable
+                    placeholder='Sort todos by...'
+                    onChange={(e) => sortByCategory(e)}
+                    options={categories}
+                    getOptionLabel={(categories) => categories["label"]}
+                    getOptionValue={(categories) => categories["value"]} />
+           
         </>
     )
 }

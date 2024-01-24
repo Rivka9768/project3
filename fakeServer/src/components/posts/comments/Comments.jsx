@@ -4,6 +4,7 @@ import AddComment from "./AddComment";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import UpdateComment from "./UpdateComment";
 import { UserContext } from '../../../App'
+import './comments.css'
 const Comments = () => {
     const [currentUser, setCurrentUser] = useContext(UserContext);
     const { id } = useParams();
@@ -12,15 +13,20 @@ const Comments = () => {
 const[isUpdate,setIsUpdate]=useState(-1)
 
     const getComments = () => {
+        debugger
         fetch(`http://localhost:3000/comments?postId=${id}`)
-            .then(response => response.json())
-            .then(response => (response.length) ? setComments(response) : alert("notExist"))
-    }
+        .then(async response => {
+            const data = await response.json();
+            response.ok ?  setComments(data) : alert("notExist")})
+        }
+   
     useEffect(() => {
         getComments()
     },  [currentUser])
-    const remove = (id) => {
-        fetch(`http://localhost:3000/comments/${id}`, {
+
+
+    const remove = (commentId) => {
+        fetch(`http://localhost:3000/comments/${commentId}`, {
           method: 'DELETE'
         })
           .then(response => {
@@ -33,7 +39,8 @@ const[isUpdate,setIsUpdate]=useState(-1)
             <button onClick={() => setIsAdd(!isAdd)}>add comment</button>
             {isAdd && <AddComment postId={id} setIsAdd={setIsAdd} getComments={getComments} />}
             <h3>comments for post id {id}</h3>
-            {comments.map((comment, index) => <div key={index}>
+            <div className="container">
+            {comments.map((comment, index) => <div  className="bubble" key={index}>
                 <p>postId: {comment.postId}</p>
                 <p>id: {comment.id}</p>
                 <p>email: {comment.email}</p>
@@ -47,6 +54,7 @@ const[isUpdate,setIsUpdate]=useState(-1)
                 <button disabled={isUpdate === index} onClick={() => remove(comment.id)}><MdDelete /></button>
                 </>}
             </div>)}
+            </div>
 
         </>
     )

@@ -1,13 +1,14 @@
 
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 import SearchPosts from "./SearchPosts";
 import { Link } from "react-router-dom";
 import UpdatePost from "./UpdatePost";
-import  Style from './loader.module.css'
+import Style from './loader.module.css'
 import { UserContext } from '../../App'
+import './posts.css'
 const Posts = () => {
   const [currentUser, setCurrentUser] = useContext(UserContext);
   const [exist, setExist] = useState(false);
@@ -24,15 +25,15 @@ const Posts = () => {
         setAllPosts(data)
       })
   }
-const[loading,setLoading]=useState(true)
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     getPosts()
 
     setTimeout(() => {
       setLoading(false);
     }, 2000);
-    
-  },  [currentUser])
+
+  }, [currentUser])
 
 
   const remove = (id) => {
@@ -45,43 +46,38 @@ const[loading,setLoading]=useState(true)
       })
   }
 
-
-
-
-
-
   return (
     <>
-
       <h1>Posts</h1>
-      <SearchPosts setPosts={setPosts} allPosts={allPosts} posts={posts} />
-      {loading?<div className={Style.loader}>
-    <div className={Style.circle}></div>
-    <div className={Style.circle}></div>
-    <div className={Style.circle}></div>
-    <div className={Style.circle}></div>
-</div> : < >
-        {posts.map((post, index) =>
-          <div style={{ fontWeight: (showBody === index) && 'bold' }} key={index}>
-            <span>ID: {post.id}</span>
-            {(isUpdate != index) ? <>
-              <span>TITLE: {post.title}</span>
-              <span>BODY: {post.body}</span>
-            </> : <UpdatePost post={post} getPosts={getPosts} setIsUpdate={setIsUpdate}/>}
-
-            {showBody === index && <>
-              <button onClick={() => setIsUpdate(prevIsUpdate => prevIsUpdate === -1 ? index : -1)}><MdModeEdit /></button>
-              <Link to={`./${post.id}/comments`}>comments</Link>
-            </>
-
-            }
-            <button onClick={() => setShowBody(prevShowBody => prevShowBody === index ? -1 : index)}> {showBody === index ? <FaEyeSlash /> : <FaEye />}</button>
+      <div className="posts_container">
 
 
+        <SearchPosts setPosts={setPosts} allPosts={allPosts} posts={posts} />
+        {loading ? <div className={Style.loader}>
+          <div className={Style.circle}></div>
+          <div className={Style.circle}></div>
+          <div className={Style.circle}></div>
+          <div className={Style.circle}></div>
+        </div> : < >
+          {posts.map((post, index) =>
+            <div className="post_item" style={{ fontWeight: (showBody === index) && 'bold' }} key={index}>
+              <span>ID: {post.id}</span>
+              {(isUpdate != index) ? <>
+                <span>TITLE: {post.title}</span>
+                <span>BODY: {post.body}</span>
+              </> : <UpdatePost post={post} getPosts={getPosts} setIsUpdate={setIsUpdate} />}
+              {showBody === index && <>
+                <button onClick={() => setIsUpdate(prevIsUpdate => prevIsUpdate === -1 ? index : -1)}><MdModeEdit /></button>
+                <Link to={`./${post.id}/comments`}>comments</Link>
+              </>
+              }
+              <button className="btmShowBody" onClick={() => setShowBody(prevShowBody => prevShowBody === index ? -1 : index)}> {showBody === index ? <FaEyeSlash /> : <FaEye />}</button>
+              <button className="btnRemovePost" disabled={isUpdate === index} onClick={() => remove(post.id)}><MdDelete /></button>
+            </div>
+          )}</>}
 
-            <button disabled={isUpdate === index} onClick={() => remove(post.id)}><MdDelete /></button>
-          </div>
-        )}</>}
+          
+      </div>
     </>
   )
 }

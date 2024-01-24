@@ -3,18 +3,18 @@ import { UserContext } from '../../../App'
 
 const AddComment=({postId,setIsAdd,getComments})=>{
 
-let id;
+let commentId;
    useEffect(() => {
       fetch(`http://localhost:3000/nextIds/comments`)
           .then(async response => {
               const data = await response.json();
               if (response.ok) {
-                  id = data.nextId;
+               commentId = data.nextId;
                   fetch(`http://localhost:3000/nextIds/comments`, {
                       method: 'PATCH',
                       body: JSON.stringify({ nextId: data.nextId + 1 })
                   });
-              } else alert("ioufg");
+              } else alert("oops somthng went wrong...");
           })
   }, [])
 
@@ -24,7 +24,7 @@ let id;
       element.preventDefault();
       const comment={
          postId:postId,
-         id:id,
+         id:commentId.toString(),
          name:element.target[0].value,
         email:currentUser.email,
          body:element.target[1].value

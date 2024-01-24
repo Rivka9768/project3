@@ -7,10 +7,8 @@ const UpdatePhoto = ({ setIsUpdate, photo, getPhotos }) => {
             method: 'PATCH',
             body: JSON.stringify({ title: element.target[0].value, url: element.target[1].value, thumbnailUrl: element.target[2].value })
         }).then(response => {
-            response.ok ? (getPhotos(), setIsUpdate(-1)) : alert("oops somthing went wrong... please try again!")
+            response.ok ? (getPhotos(), setIsUpdate(-1) ,window.location.reload()) : alert("oops somthing went wrong... please try again!")
         });
-
-        //יש בעיה עם getPhotos
     }
     return (
         <>
