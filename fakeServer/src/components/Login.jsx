@@ -41,7 +41,7 @@ const Login = () => {
         fetch(`http://localhost:3000/users?username=${name}&&website=${password}`)
             .then(async response => {
                 const data = await response.json();
-                (!response.ok) ? setExist(false) : goToHome(data[0])
+                (data===[]) ? setExist(false) : goToHome(data[0])
             })
     }
 
