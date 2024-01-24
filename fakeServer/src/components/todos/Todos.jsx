@@ -8,6 +8,7 @@ import SearchTodos from "./SearchTodos";
 import { UserContext } from "../../App";
 import Todo from "./Todo";
 import './todosStyle.css'
+import Style from "../loader.module.css"
 const Todos = () => {
 
   const [currentUser, setCurrentUser] = useContext(UserContext);
@@ -16,6 +17,7 @@ const Todos = () => {
   let [allTodos, setAllTodos] = useState([])
   const [isUpdate, setIsUpdate] = useState(-1);
   const [isAdd, setIsAdd] = useState(false);
+  const [loading, setLoading] = useState(true)
 
   const getTodos = () => {
     fetch(`http://localhost:3000/todos?userId=${currentUser.id}`)
@@ -29,6 +31,9 @@ const Todos = () => {
 
   useEffect(() => {
     getTodos()
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   }, [currentUser])
 
   const remove = (id) => {
@@ -43,6 +48,12 @@ const Todos = () => {
   return (
     <>
       {!exist ? <AiOutlineLoading3Quarters /> : < >
+      {loading ? <div className={Style.loader}>
+          <div className={Style.circle}></div>
+          <div className={Style.circle}></div>
+          <div className={Style.circle}></div>
+          <div className={Style.circle}></div>
+        </div> : < >
         <button onClick={() => setIsAdd(!isAdd)}>add todo</button>
         {isAdd && <AddTodo setIsAdd={setIsAdd} getTodos={getTodos} />}
         <div className="todos_container">
@@ -59,6 +70,7 @@ const Todos = () => {
             </div>
           )}
         </div>
+        </>}
       </>
       }
     </>

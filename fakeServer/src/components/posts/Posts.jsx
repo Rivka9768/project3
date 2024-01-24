@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect, useContext } from "react";
 import { MdDelete, MdModeEdit } from "react-icons/md";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 import SearchPosts from "./SearchPosts";
 import { Link } from "react-router-dom";
@@ -15,19 +14,20 @@ const Posts = () => {
   const [showBody, setShowBody] = useState(-1)
   let [allPosts, setAllPosts] = useState([])
   const [isUpdate, setIsUpdate] = useState(-1);
+  const [loading, setLoading] = useState(true)
   const getPosts = () => {
     fetch(`http://localhost:3000/posts?userId=${currentUser.id}`)
       .then(async response => {
         const data = await response.json();
-        response.ok? (setPosts(data),setAllPosts(data)): alert("oops somthing went wrong...")
+        response.ok ? (setPosts(data), setAllPosts(data)) : alert("oops somthing went wrong...")
       })
   }
-  const [loading, setLoading] = useState(true)
+
   useEffect(() => {
     getPosts()
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 1000);
 
   }, [currentUser])
 
@@ -70,7 +70,7 @@ const Posts = () => {
             </div>
           )}</>}
 
-          
+
       </div>
     </>
   )
